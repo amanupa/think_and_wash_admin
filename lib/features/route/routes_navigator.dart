@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:think_and_wash_admin/features/auth/presentation/screen/login.dart';
 import 'package:think_and_wash_admin/features/home/presentation/home_screen.dart';
+import 'package:think_and_wash_admin/features/profile/presentation/profile.dart';
 import 'package:think_and_wash_admin/features/route/app_routes.dart';
 
 class RoutesNavigator {
@@ -14,6 +15,11 @@ class RoutesNavigator {
       case AppRoutes.home:
         return MaterialPageRoute(
           builder: (context) => HomeScreen(),
+          settings: settings,
+        );
+      case AppRoutes.profile:
+        return MaterialPageRoute(
+          builder: (context) => Profile(),
           settings: settings,
         );
       /* case AppRoutes.orders:
@@ -56,11 +62,7 @@ class RoutesNavigator {
           builder: (context) => TrackOrder(),
           settings: settings,
         );
-      case AppRoutes.profile:
-        return MaterialPageRoute(
-          builder: (context) => Profile(),
-          settings: settings,
-        );
+      
       case AppRoutes.dryClean:
         return MaterialPageRoute(
           builder: (context) => DryClean(),

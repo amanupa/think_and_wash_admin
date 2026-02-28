@@ -1,4 +1,6 @@
 class OrderEntity {
+  final String customerId;
+  final String vendorId;
   final String id;
   final int itemCount;
   final String address;
@@ -13,6 +15,8 @@ class OrderEntity {
 
   const OrderEntity({
     required this.id,
+    required this.customerId,
+    required this.vendorId,
     required this.itemCount,
     required this.address,
     required this.userName,
@@ -31,6 +35,8 @@ class OrderEntity {
   }) {
     return OrderEntity(
       id: id,
+      customerId: customerId,
+      vendorId: vendorId,
       itemCount: itemCount,
       address: address,
       userName: userName,

@@ -3,12 +3,14 @@ import '../../domain/order_repository.dart';
 
 class MockOrderRepository implements OrderRepository {
   @override
-  Future<List<OrderEntity>> getOrders() async {
+  Future<List<OrderEntity>> getOrders(String venId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
     return [
       OrderEntity(
         id: "1",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 5,
         address: "Chandigarh University",
         userName: "Aman Upadhyay",
@@ -22,6 +24,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "2",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 3,
         address: "CGC Landran",
         userName: "Rahul Verma",
@@ -35,6 +39,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "3",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 8,
         address: "Rayat Bahra Univeristy",
         userName: "Kiran Bala",
@@ -48,6 +54,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "4",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 8,
         address: "Chandigarh University Kharar",
         userName: "Shubham Singh",
@@ -61,6 +69,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "5",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 9,
         address: "Rayat Bahra University",
         userName: "Manik Sharma",
@@ -74,6 +84,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "6",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 5,
         address: "Rayat Bahra University",
         userName: "Saroj Singh",
@@ -87,6 +99,8 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "7",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 7,
         address: "Chandigarh University Kharar",
         userName: "Aman",
