@@ -9,6 +9,8 @@ class OrderModel extends OrderEntity {
     required super.address,
     required super.userName,
     required super.userPhone,
+    required super.venName,
+    required super.venPhone,
     required super.paymentType,
     required super.items,
     required super.orderDate,
@@ -25,7 +27,9 @@ class OrderModel extends OrderEntity {
       itemCount: json['item_count'],
       address: json['address'],
       userName: json['user_name'],
+      venName: json['venName'],
       userPhone: json['user_phone'],
+      venPhone: json['venPhone'],
       paymentType:
           json['payment'] == 'paid' ? PaymentType.paid : PaymentType.cod,
       items:
