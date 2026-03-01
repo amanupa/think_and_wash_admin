@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:think_and_wash_admin/features/auth/presentation/screen/login.dart';
 import 'package:think_and_wash_admin/features/home/presentation/home_screen.dart';
+import 'package:think_and_wash_admin/features/pickupSlot/presentation/slot_config.dart';
 import 'package:think_and_wash_admin/features/profile/presentation/profile.dart';
 import 'package:think_and_wash_admin/features/route/app_routes.dart';
 
@@ -20,6 +21,11 @@ class RoutesNavigator {
       case AppRoutes.profile:
         return MaterialPageRoute(
           builder: (context) => Profile(),
+          settings: settings,
+        );
+      case AppRoutes.slot:
+        return MaterialPageRoute(
+          builder: (context) => VendorSlotConfigScreen(),
           settings: settings,
         );
       /* case AppRoutes.orders:
