@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:think_and_wash/core/app_colors.dart';
-import 'package:think_and_wash/features/pickupSlot/data/pickup_slot_model.dart';
+
+import '../../../../core/app_colors.dart';
+import '../../data/pickup_slot_model.dart';
 
 class SlotGrid extends StatelessWidget {
   final List<PickupSlot> slots;
