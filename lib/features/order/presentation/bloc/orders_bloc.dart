@@ -9,7 +9,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc(this.repository)
     : super(const OrderState(isLoading: false, allOrders: [])) {
     on<LoadOrders>(_onLoadOrders);
-    on<RefreshOrders>(_onLoadOrders);
+    //on<RefreshOrders>(_onLoadOrders);
 
     on<UpdateOrderStatus>(_onUpdateOrderStatus);
   }
@@ -38,11 +38,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
-  Future<void> _onLoadOrders(OrderEvent event, Emitter<OrderState> emit) async {
+  Future<void> _onLoadOrders(LoadOrders event, Emitter<OrderState> emit) async {
     emit(state.copyWith(isLoading: true, error: null));
 
     try {
-      final orders = await repository.getOrders();
+      final orders = await repository.getOrders(event.venId);
       emit(state.copyWith(isLoading: false, allOrders: orders));
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));

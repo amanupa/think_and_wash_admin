@@ -3,16 +3,20 @@ import '../../domain/order_repository.dart';
 
 class MockOrderRepository implements OrderRepository {
   @override
-  Future<List<OrderEntity>> getOrders() async {
+  Future<List<OrderEntity>> getOrders(String venId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
     return [
       OrderEntity(
         id: "1",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 5,
         address: "Chandigarh University",
         userName: "Aman Upadhyay",
         userPhone: "9876543210",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.cod,
         items: const [],
         orderDate: DateTime.now(),
@@ -22,10 +26,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "2",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 3,
         address: "CGC Landran",
         userName: "Rahul Verma",
         userPhone: "9123456780",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.paid,
         items: const [],
         orderDate: DateTime.now(),
@@ -35,10 +43,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "3",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 8,
         address: "Rayat Bahra Univeristy",
         userName: "Kiran Bala",
         userPhone: "9988776655",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.cod,
         items: const [],
         orderDate: DateTime.now(),
@@ -48,10 +60,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "4",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 8,
         address: "Chandigarh University Kharar",
         userName: "Shubham Singh",
         userPhone: "9988776655",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.paid,
         items: const [],
         orderDate: DateTime.now(),
@@ -61,10 +77,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "5",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 9,
         address: "Rayat Bahra University",
         userName: "Manik Sharma",
         userPhone: "9988776655",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.cod,
         items: const [],
         orderDate: DateTime.now(),
@@ -74,10 +94,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "6",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 5,
         address: "Rayat Bahra University",
         userName: "Saroj Singh",
         userPhone: "9988776655",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.paid,
         items: const [],
         orderDate: DateTime.now(),
@@ -87,10 +111,14 @@ class MockOrderRepository implements OrderRepository {
       ),
       OrderEntity(
         id: "7",
+        customerId: "user_01",
+        vendorId: "ven_t&w_01",
         itemCount: 7,
         address: "Chandigarh University Kharar",
         userName: "Aman",
         userPhone: "9988776655",
+        venName: "t&w",
+        venPhone: "92****24",
         paymentType: PaymentType.cod,
         items: const [],
         orderDate: DateTime.now(),

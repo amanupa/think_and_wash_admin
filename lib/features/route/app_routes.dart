@@ -14,4 +14,5 @@ class AppRoutes {
   static const String homebounds = "/hb";
   static const String shoes = "/sc";
   static const String bags = "/bc";
+  static const String slot = "/slot";
 }

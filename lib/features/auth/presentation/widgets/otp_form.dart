@@ -22,8 +22,8 @@ class OtpTextFieldForm extends StatelessWidget {
     return SizedBox(
       child: Center(
         child: Container(
-          height: 400,
-          width: 350,
+          height: 450,
+          width: 380,
 
           decoration: BoxDecoration(
             color: AppColors.background,
@@ -46,53 +46,80 @@ class OtpTextFieldForm extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            spacing: 50,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                width: 300,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      spreadRadius: -10,
-                      offset: Offset(10, 10),
-                      color: AppColors.boxShadowPink,
-                    ),
-                  ],
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextFormField(
-                  controller: formController,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: Theme.of(context).textTheme.bodyMedium,
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Icons.phone, color: AppColors.primary),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/vendor-login.png",
+                    fit: BoxFit.cover,
+                    height: 300,
+                    width: 350,
                   ),
-                ),
+                ],
               ),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.bodyMedium,
-                    foregroundColor: AppColors.background,
-                    shadowColor: AppColors.boxShadowblue,
-                    backgroundColor: AppColors.primary,
+              Column(
+                spacing: 20,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                      // width: 250,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: -10,
+                            offset: Offset(10, 10),
+                            color: AppColors.boxShadowPink,
+                          ),
+                        ],
+                        color: AppColors.background,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextFormField(
+                        controller: formController,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          hintText: hintText,
+                          hintStyle: Theme.of(context).textTheme.bodyMedium,
+                          border: InputBorder.none,
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  onPressed: isLoading ? null : onPressed,
-                  child:
-                      isLoading
-                          ? CircularProgressIndicator()
-                          : Text(buttonText),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
+                          foregroundColor: AppColors.background,
+                          shadowColor: AppColors.boxShadowblue,
+                          backgroundColor: AppColors.primary,
+                        ),
+                        onPressed: isLoading ? null : onPressed,
+                        child:
+                            isLoading
+                                ? CircularProgressIndicator()
+                                : Text(buttonText),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

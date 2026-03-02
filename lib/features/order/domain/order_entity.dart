@@ -1,9 +1,13 @@
 class OrderEntity {
+  final String customerId;
+  final String vendorId;
   final String id;
   final int itemCount;
   final String address;
   final String userName;
   final String userPhone;
+  final String venName;
+  final String venPhone;
   final PaymentType paymentType;
   final List<OrderItemEntity> items;
   final DateTime orderDate;
@@ -13,10 +17,14 @@ class OrderEntity {
 
   const OrderEntity({
     required this.id,
+    required this.customerId,
+    required this.vendorId,
     required this.itemCount,
     required this.address,
     required this.userName,
     required this.userPhone,
+    required this.venName,
+    required this.venPhone,
     required this.paymentType,
     required this.items,
     required this.orderDate,
@@ -31,16 +39,20 @@ class OrderEntity {
   }) {
     return OrderEntity(
       id: id,
+      customerId: customerId,
+      vendorId: vendorId,
       itemCount: itemCount,
       address: address,
       userName: userName,
       userPhone: userPhone,
+      venName: venName,
+      venPhone: venPhone,
       paymentType: paymentType,
       items: items,
       orderDate: orderDate,
       deliveryDate: deliveryDate,
       status: status ?? this.status,
-      totalAmount: totalAmount ?? this.totalAmount, // ✅ NEW
+      totalAmount: totalAmount ?? this.totalAmount,
     );
   }
 }
