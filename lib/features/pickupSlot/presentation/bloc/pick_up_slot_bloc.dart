@@ -1,15 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../data/pickup_slot_model.dart';
-import '../../data/pickup_slot_repository_impl.dart';
-
 part 'pick_up_slot_event.dart';
 part 'pick_up_slot_state.dart';
 
 class PickUpSlotBloc extends Bloc<PickUpSlotEvent, PickUpSlotState> {
-  final UserSlotRepository repository;
-  PickUpSlotBloc(this.repository) : super(PickUpSlotInitial()) {
+  //final UserSlotRepository repository;this.repository
+  PickUpSlotBloc() : super(PickUpSlotInitial()) {
     on<CreateSlotConfig>(_onCreateSlotConfig);
   }
   Future<void> _onCreateSlotConfig(

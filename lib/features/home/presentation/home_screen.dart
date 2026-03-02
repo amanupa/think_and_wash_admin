@@ -36,6 +36,7 @@ class HomeScreen extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.profile);
               },
+
               child: Container(
                 height: 60,
                 width: 60,
@@ -62,6 +63,18 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.slot);
+                },
+                icon: Icon(
+                  Icons.calendar_month,
+                  color: AppColors.boxShadowblue,
+                  size: 25,
+                ),
+              ),
+            ],
 
             bottom: TabBar(
               labelStyle: Theme.of(context).textTheme.bodyMedium,

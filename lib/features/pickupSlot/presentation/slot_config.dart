@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:think_and_wash_admin/core/app_colors.dart';
 import 'package:think_and_wash_admin/features/pickupSlot/presentation/widgets/app_number_field.dart';
 import 'package:think_and_wash_admin/features/pickupSlot/presentation/widgets/date_picker_field.dart';
+import 'package:think_and_wash_admin/features/pickupSlot/presentation/widgets/submit_button.dart';
 
-import '../data/pickup_slot_repository_impl.dart';
 import 'bloc/pick_up_slot_bloc.dart';
+import 'widgets/spacial_note.dart';
+import 'widgets/time_picker.dart';
 
 class VendorSlotConfigScreen extends StatefulWidget {
   const VendorSlotConfigScreen({super.key});
@@ -27,9 +30,17 @@ class _VendorSlotConfigScreenState extends State<VendorSlotConfigScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PickUpSlotBloc(context.read<UserSlotRepository>()),
+      create: (_) => PickUpSlotBloc(), //context.read<UserSlotRepository>()
       child: Scaffold(
-        appBar: AppBar(title: const Text("Create Pickup Slot")),
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          title: Text(
+            "Create Pickup Slot",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          centerTitle: true,
+        ),
+
         body: BlocListener<PickUpSlotBloc, PickUpSlotState>(
           listener: (context, state) {
             if (state is SlotConfigCreated) {
@@ -62,10 +73,22 @@ class _VendorSlotConfigScreenState extends State<VendorSlotConfigScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  /* _buildTimePicker(true),
+                  TimePickerField(
+                    value: _startTime,
+                    label: "Start Time",
+                    onTimeSelected: (time) {
+                      setState(() => _startTime = time);
+                    },
+                  ),
                   const SizedBox(height: 16),
-                  _buildTimePicker(false),
-                  const SizedBox(height: 16),*/
+                  TimePickerField(
+                    value: _endTime,
+                    label: "End Time",
+                    onTimeSelected: (time) {
+                      setState(() => _endTime = time);
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   AppNumberField(
                     controller: _capacityController,
                     label: "Capacity Per Slot",
@@ -76,13 +99,7 @@ class _VendorSlotConfigScreenState extends State<VendorSlotConfigScreen> {
                     label: "Caut-off minutes",
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _noteController,
-                    decoration: const InputDecoration(
-                      labelText: "Special Note",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+                  SpacialNote(noteController: _noteController),
                   const SizedBox(height: 24),
                   _submitButton(),
                 ],
@@ -99,12 +116,10 @@ class _VendorSlotConfigScreenState extends State<VendorSlotConfigScreen> {
       builder: (context, state) {
         final isLoading = state is SlotConfigCreating;
 
-        return ElevatedButton(
-          onPressed: isLoading ? null : _onSubmit,
-          child:
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text("Create Slot Config"),
+        return AppSubmitButton(
+          isLoading: isLoading,
+          onPressed: _onSubmit,
+          text: "Create Slot Config",
         );
       },
     );
