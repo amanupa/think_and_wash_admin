@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:think_and_wash_admin/core/snack_bar_messages.dart';
+import 'package:think_and_wash_admin/features/auth/domain/auth_entity.dart';
 import 'package:think_and_wash_admin/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:think_and_wash_admin/features/route/app_routes.dart';
 
@@ -12,25 +13,45 @@ class Login extends StatelessWidget {
   final TextEditingController phnController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
 
+  // Store the phone number for OTP validation
+  String _currentPhone = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is OtpRequestedFailure) {
-            SnackbarService.error("Otp request fail, Try again...");
+            SnackbarService.error(state.msg);
+          }
+          if (state is OtpRequestedSuccess) {
+            _currentPhone = state.phn;
           }
           if (state is OtpValidationFailure) {
-            SnackbarService.error(
-              "Otp validation fail wrong otp, Try again...",
-            );
+            SnackbarService.error(state.msg);
           }
-          if (state is OtpValidationSuccess) {
+          if (state is OtpValidationRoleError) {
+            SnackbarService.error(state.msg);
+          }
+          if (state is OtpValidationSuccess ||
+              state is StaticOtpValidationSuccess) {
             Navigator.of(context).pushNamed(AppRoutes.home);
           }
         },
         builder: (context, state) {
-          if (state is OtpRequestedSuccess || state is OtpValidationFailure) {
+          if (state is OtpRequestedSuccess ||
+              state is OtpValidationFailure ||
+              state is OtpValidationRoleError) {
+            // Get the phone number from the state
+            String phone = _currentPhone;
+            if (state is OtpValidationFailure) {
+              phone = state.phn;
+            } else if (state is OtpValidationRoleError) {
+              phone = state.phn;
+            } else if (state is OtpRequestedSuccess) {
+              phone = state.phn;
+            }
+
             return OtpTextFieldForm(
               formController: otpController,
               hintText: "Enter Otp",
@@ -38,7 +59,13 @@ class Login extends StatelessWidget {
               isLoading: state is OtpValidationLoading,
               onPressed: () {
                 context.read<AuthBloc>().add(
-                  OtpValidationRequested(otp: otpController.text),
+                  OtpValidationRequested(
+                    entity: AuthEntity(
+                      otp: otpController.text,
+                      phone: phone,
+                      role: "vendor",
+                    ),
+                  ),
                 );
                 otpController.text = "";
               },

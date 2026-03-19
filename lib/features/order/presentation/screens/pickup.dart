@@ -20,7 +20,7 @@ class Pickup extends StatelessWidget {
 
         final orders =
             state.allOrders
-                .where((e) => e.status == OrderStatus.pickup)
+                .where((e) => e.status == OrderStatus.booked)
                 .toList();
 
         if (orders.isEmpty) {

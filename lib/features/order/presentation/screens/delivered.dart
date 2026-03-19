@@ -24,7 +24,7 @@ class Delivered extends StatelessWidget {
                 .toList();
 
         if (orders.isEmpty) {
-          return const Center(child: Text("No Pickup Orders"));
+          return const Center(child: Text("No Delivered Orders"));
         }
 
         return ListView.builder(
@@ -32,7 +32,7 @@ class Delivered extends StatelessWidget {
           itemCount: orders.length,
           itemBuilder: (context, index) {
             final order = orders[index];
-            return OrderCard(order: order);
+            return OrderCard(order: order, showUpdateButton: false);
           },
         );
       },

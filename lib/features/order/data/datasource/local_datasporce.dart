@@ -1,137 +1,53 @@
+import 'package:dartz/dartz.dart';
+import 'package:think_and_wash_admin/core/failure.dart';
 import '../../domain/order_entity.dart';
 import '../../domain/order_repository.dart';
 
+/// Mock repository — kept for testing/development only
 class MockOrderRepository implements OrderRepository {
   @override
-  Future<List<OrderEntity>> getOrders(String venId) async {
+  Future<Either<Failure, List<OrderEntity>>> getVendorOrders() async {
     await Future.delayed(const Duration(milliseconds: 500));
-
-    return [
+    return right([
       OrderEntity(
         id: "1",
         customerId: "user_01",
         vendorId: "ven_t&w_01",
         itemCount: 5,
         address: "Chandigarh University",
-        userName: "Aman Upadhyay",
+        userName: "Test User",
         userPhone: "9876543210",
         venName: "t&w",
         venPhone: "92****24",
         paymentType: PaymentType.cod,
         items: const [],
         orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 2)),
-        status: OrderStatus.pickup,
+        status: OrderStatus.booked,
         totalAmount: 450,
       ),
-      OrderEntity(
-        id: "2",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 3,
-        address: "CGC Landran",
-        userName: "Rahul Verma",
-        userPhone: "9123456780",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.paid,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 1)),
-        status: OrderStatus.pickup,
-        totalAmount: 300,
-      ),
-      OrderEntity(
-        id: "3",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 8,
-        address: "Rayat Bahra Univeristy",
-        userName: "Kiran Bala",
-        userPhone: "9988776655",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.cod,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        status: OrderStatus.pickup,
-        totalAmount: 600,
-      ),
-      OrderEntity(
-        id: "4",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 8,
-        address: "Chandigarh University Kharar",
-        userName: "Shubham Singh",
-        userPhone: "9988776655",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.paid,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        status: OrderStatus.delivery,
-        totalAmount: 600,
-      ),
-      OrderEntity(
-        id: "5",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 9,
-        address: "Rayat Bahra University",
-        userName: "Manik Sharma",
-        userPhone: "9988776655",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.cod,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        status: OrderStatus.delivery,
-        totalAmount: 1600,
-      ),
-      OrderEntity(
-        id: "6",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 5,
-        address: "Rayat Bahra University",
-        userName: "Saroj Singh",
-        userPhone: "9988776655",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.paid,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        status: OrderStatus.delivered,
-        totalAmount: 550,
-      ),
-      OrderEntity(
-        id: "7",
-        customerId: "user_01",
-        vendorId: "ven_t&w_01",
-        itemCount: 7,
-        address: "Chandigarh University Kharar",
-        userName: "Aman",
-        userPhone: "9988776655",
-        venName: "t&w",
-        venPhone: "92****24",
-        paymentType: PaymentType.cod,
-        items: const [],
-        orderDate: DateTime.now(),
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        status: OrderStatus.delivery,
-        totalAmount: 950,
-      ),
-    ];
+    ]);
   }
 
   @override
-  Future<void> updateOrderStatus({
+  Future<Either<Failure, OrderEntity>> updateOrderStatus({
     required String orderId,
-    required OrderStatus status,
-  }) async {}
+    required String status,
+  }) async {
+    return right(OrderEntity(
+      id: orderId,
+      customerId: "user_01",
+      vendorId: "ven_t&w_01",
+      itemCount: 5,
+      address: "Chandigarh University",
+      userName: "Test User",
+      userPhone: "9876543210",
+      venName: "t&w",
+      venPhone: "92****24",
+      paymentType: PaymentType.cod,
+      items: const [],
+      orderDate: DateTime.now(),
+      status: OrderStatus.picked,
+      totalAmount: 450,
+    ));
+  }
 }

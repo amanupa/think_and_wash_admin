@@ -17,14 +17,14 @@ class Delivery extends StatelessWidget {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
+        //e.status == OrderStatus.delivery ||
         final orders =
             state.allOrders
-                .where((e) => e.status == OrderStatus.delivery)
+                .where((e) => e.status == OrderStatus.picked)
                 .toList();
 
         if (orders.isEmpty) {
-          return const Center(child: Text("No Pickup Orders"));
+          return const Center(child: Text("No Delivery Orders"));
         }
 
         return ListView.builder(

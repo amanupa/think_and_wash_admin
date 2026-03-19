@@ -1,51 +1,77 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:think_and_wash_admin/features/order/domain/order_repository.dart';
+import 'package:think_and_wash_admin/core/usecase_interfase.dart';
+import 'package:think_and_wash_admin/features/order/domain/get_vendor_orders_usecase.dart';
+import 'package:think_and_wash_admin/features/order/domain/update_order_status_usecase.dart';
 import 'package:think_and_wash_admin/features/order/presentation/bloc/orders_event.dart';
 import 'package:think_and_wash_admin/features/order/presentation/bloc/orders_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
-  final OrderRepository repository;
+  final GetVendorOrdersUsecase getVendorOrdersUsecase;
+  final UpdateOrderStatusUsecase updateOrderStatusUsecase;
 
-  OrderBloc(this.repository)
-    : super(const OrderState(isLoading: false, allOrders: [])) {
+  OrderBloc({
+    required this.getVendorOrdersUsecase,
+    required this.updateOrderStatusUsecase,
+  }) : super(const OrderState(isLoading: false, allOrders: [])) {
     on<LoadOrders>(_onLoadOrders);
-    //on<RefreshOrders>(_onLoadOrders);
+    on<UpdateOrderStatusEvent>(_onUpdateOrderStatus);
+  }
 
-    on<UpdateOrderStatus>(_onUpdateOrderStatus);
+  Future<void> _onLoadOrders(
+    LoadOrders event,
+    Emitter<OrderState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true, error: null));
+
+    final result = await getVendorOrdersUsecase(NoParams());
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          isLoading: false,
+          error: failure.message ?? "Failed to load orders",
+        ));
+      },
+      (orders) {
+        emit(state.copyWith(isLoading: false, allOrders: orders));
+      },
+    );
   }
 
   Future<void> _onUpdateOrderStatus(
-    UpdateOrderStatus event,
+    UpdateOrderStatusEvent event,
     Emitter<OrderState> emit,
   ) async {
-    try {
-      await repository.updateOrderStatus(
+    emit(state.copyWith(isUpdating: true, updateError: null));
+
+    final result = await updateOrderStatusUsecase(
+      UpdateOrderStatusParams(
         orderId: event.orderId,
         status: event.status,
-      );
+      ),
+    );
 
-      final updatedOrders =
-          state.allOrders.map((order) {
-            if (order.id == event.orderId) {
-              return order.copyWith(status: event.status);
-            }
-            return order;
-          }).toList();
+    result.fold(
+      (failure) {
+        debugPrint("Update status failed: ${failure.message}");
+        emit(state.copyWith(
+          isUpdating: false,
+          updateError: failure.message ?? "Failed to update",
+        ));
+      },
+      (updatedOrder) {
+        final updatedOrders = state.allOrders.map((order) {
+          if (order.id == updatedOrder.id) return updatedOrder;
+          return order;
+        }).toList();
 
-      emit(state.copyWith(allOrders: updatedOrders));
-    } catch (e) {
-      emit(state.copyWith(error: e.toString()));
-    }
-  }
-
-  Future<void> _onLoadOrders(LoadOrders event, Emitter<OrderState> emit) async {
-    emit(state.copyWith(isLoading: true, error: null));
-
-    try {
-      final orders = await repository.getOrders(event.venId);
-      emit(state.copyWith(isLoading: false, allOrders: orders));
-    } catch (e) {
-      emit(state.copyWith(isLoading: false, error: e.toString()));
-    }
+        emit(state.copyWith(
+          isUpdating: false,
+          allOrders: updatedOrders,
+          updateSuccess: "Order status updated successfully",
+        ));
+      },
+    );
   }
 }

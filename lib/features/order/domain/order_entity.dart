@@ -11,7 +11,6 @@ class OrderEntity {
   final PaymentType paymentType;
   final List<OrderItemEntity> items;
   final DateTime orderDate;
-  final DateTime deliveryDate;
   final OrderStatus status;
   final double totalAmount;
 
@@ -28,15 +27,11 @@ class OrderEntity {
     required this.paymentType,
     required this.items,
     required this.orderDate,
-    required this.deliveryDate,
     required this.status,
     required this.totalAmount,
   });
 
-  OrderEntity copyWith({
-    OrderStatus? status,
-    double? totalAmount, // optional future flexibility
-  }) {
+  OrderEntity copyWith({OrderStatus? status, double? totalAmount}) {
     return OrderEntity(
       id: id,
       customerId: customerId,
@@ -50,7 +45,6 @@ class OrderEntity {
       paymentType: paymentType,
       items: items,
       orderDate: orderDate,
-      deliveryDate: deliveryDate,
       status: status ?? this.status,
       totalAmount: totalAmount ?? this.totalAmount,
     );
@@ -60,10 +54,18 @@ class OrderEntity {
 class OrderItemEntity {
   final String name;
   final int quantity;
+  final double price;
+  final double subtotal;
 
-  const OrderItemEntity({required this.name, required this.quantity});
+  const OrderItemEntity({
+    required this.name,
+    required this.quantity,
+    required this.price,
+    required this.subtotal,
+  });
 }
 
 enum PaymentType { paid, cod }
 
-enum OrderStatus { pickup, delivery, delivered }
+enum OrderStatus { booked, picked, delivered, cancelled }
+//delivery,

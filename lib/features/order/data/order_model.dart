@@ -14,51 +14,59 @@ class OrderModel extends OrderEntity {
     required super.paymentType,
     required super.items,
     required super.orderDate,
-    required super.deliveryDate,
     required super.status,
     required super.totalAmount,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: json['id'],
-      customerId: json['customerId'],
-      vendorId: json['vendorId'],
-      itemCount: json['item_count'],
-      address: json['address'],
-      userName: json['user_name'],
-      venName: json['venName'],
-      userPhone: json['user_phone'],
-      venPhone: json['venPhone'],
+      id: json['_id'] ?? '',
+      customerId: json['customerId'] ?? '',
+      vendorId: json['vendorId'] ?? '',
+      itemCount: json['itemCount'] ?? 0,
+      address: json['address'] ?? '',
+      userName: json['userName'] ?? '',
+      userPhone: json['userPhone'] ?? '',
+      venName: json['venName'] ?? '',
+      venPhone: json['venPhone'] ?? '',
       paymentType:
-          json['payment'] == 'paid' ? PaymentType.paid : PaymentType.cod,
-      items:
-          (json['items'] as List)
-              .map(
-                (e) =>
-                    OrderItemEntity(name: e['name'], quantity: e['quantity']),
-              )
-              .toList(),
-      orderDate: DateTime.parse(json['order_date']),
-      deliveryDate: DateTime.parse(json['delivery_date']),
-      status: _mapStatus(
-        json['status'] is int
-            ? json['status']
-            : int.parse(json['status'].toString()),
-      ),
-      totalAmount: (json['total_amount'] as num).toDouble(),
+          json['paymentType'] == 'paid' ? PaymentType.paid : PaymentType.cod,
+      items: _parseItems(json['items']),
+      orderDate: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      status: _mapStatus(json['status'] ?? 'booked'),
+      totalAmount: (json['totalAmount'] as num?)?.toDouble() ?? 0.0,
     );
   }
-  static OrderStatus _mapStatus(int status) {
+
+  static List<OrderItemEntity> _parseItems(dynamic itemsJson) {
+    if (itemsJson == null || itemsJson is! List) return [];
+    return itemsJson
+        .map(
+          (e) => OrderItemEntity(
+            name: e['itemName'] ?? '',
+            quantity: e['quantity'] ?? 0,
+            price: (e['price'] as num?)?.toDouble() ?? 0.0,
+            subtotal: (e['subtotal'] as num?)?.toDouble() ?? 0.0,
+          ),
+        )
+        .toList();
+  }
+
+  static OrderStatus _mapStatus(String status) {
     switch (status) {
-      case 1:
-        return OrderStatus.pickup;
-      case 2:
-        return OrderStatus.delivery;
-      case 3:
+      case 'booked':
+        return OrderStatus.booked;
+      case 'picked':
+        return OrderStatus.picked;
+      case 'delivered':
         return OrderStatus.delivered;
+      case 'cancelled':
+        return OrderStatus.cancelled;
       default:
-        return OrderStatus.pickup;
+        return OrderStatus.booked;
     }
   }
 }
+
+/*        return OrderStatus.delivery;
+      case 'delivered': */
