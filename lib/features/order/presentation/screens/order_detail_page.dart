@@ -33,6 +33,7 @@ class OrderDetailPage extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final nextStatus = _getNextStatus(order.status);
         return Scaffold(
           backgroundColor: AppColors.background,
           appBar: AppBar(
@@ -44,11 +45,16 @@ class OrderDetailPage extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Column(
+            child: Stack(
               children: [
-                OrderDetailHeader(order: order),
-                const SizedBox(height: 16),
-                OrderItemsList(items: order.items),
+                Column(
+                  children: [
+                    OrderDetailHeader(order: order),
+                    const SizedBox(height: 16),
+                    OrderItemsList(items: order.items),
+                  ],
+                ),
+                Column(mainAxisAlignment: MainAxisAlignment.end, children: []),
               ],
             ),
           ),
