@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:think_and_wash_admin/core/app_colors.dart';
+import 'package:think_and_wash_admin/core/custom_button.dart';
 import 'package:think_and_wash_admin/core/snack_bar_messages.dart';
 import 'package:think_and_wash_admin/features/order/domain/order_entity.dart';
 import 'package:think_and_wash_admin/features/order/presentation/bloc/orders_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:think_and_wash_admin/features/order/presentation/bloc/orders_eve
 import 'package:think_and_wash_admin/features/order/presentation/bloc/orders_state.dart';
 import 'package:think_and_wash_admin/features/order/presentation/widgets/order_detail_header.dart';
 import 'package:think_and_wash_admin/features/order/presentation/widgets/order_items_list.dart';
-import 'package:think_and_wash_admin/features/order/presentation/widgets/update_status_button.dart';
 
 class OrderDetailPage extends StatelessWidget {
   final OrderEntity order;
@@ -43,22 +43,25 @@ class OrderDetailPage extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Stack(
-              children: [
-                Column(
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
                   children: [
                     OrderDetailHeader(order: order),
                     const SizedBox(height: 16),
                     OrderItemsList(items: order.items),
                   ],
                 ),
-                Column(mainAxisAlignment: MainAxisAlignment.end, children: []),
-              ],
-            ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [_buildBottomBar(context, state)!],
+              ),
+            ],
           ),
-          bottomNavigationBar: _buildBottomBar(context, state),
+
+          //bottomNavigationBar: _buildBottomBar(context, state),
         );
       },
     );
@@ -70,14 +73,29 @@ class OrderDetailPage extends StatelessWidget {
     final nextStatus = _getNextStatus(order.status);
     if (nextStatus == null) return null;
 
-    return UpdateStatusButton(
-      nextStatus: nextStatus,
-      isLoading: state.isUpdating,
-      onPressed: () {
+    return CustomButton(
+      onpressed: () {
         context.read<OrderBloc>().add(
           UpdateOrderStatusEvent(orderId: order.id, status: nextStatus),
         );
       },
+      childd:
+          state.isUpdating
+              ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+              : Text(
+                "Mark as ${nextStatus.toUpperCase()}",
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
     );
   }
 
@@ -87,7 +105,6 @@ class OrderDetailPage extends StatelessWidget {
         return "picked";
       case OrderStatus.picked:
         return "delivered";
-
       case OrderStatus.delivered:
       case OrderStatus.cancelled:
         return null;

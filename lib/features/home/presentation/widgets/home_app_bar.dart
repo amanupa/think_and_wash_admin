@@ -27,14 +27,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.background,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                spreadRadius: -4,
-                color: AppColors.boxShadowPink,
-                offset: const Offset(5, 5),
-              ),
-            ],
           ),
           child: Image.asset(
             "assets/vendor-profile.png",
@@ -44,7 +36,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      actions: [
+      /* actions: [
         IconButton(
           onPressed: () => Navigator.pushNamed(context, AppRoutes.slot),
           icon: Icon(
@@ -53,7 +45,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 25,
           ),
         ),
-      ],
+      ],*/
     );
   }
 }

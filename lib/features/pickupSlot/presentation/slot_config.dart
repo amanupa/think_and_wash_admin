@@ -33,6 +33,7 @@ class _VendorSlotConfigScreenState extends State<VendorSlotConfigScreen> {
       create: (_) => PickUpSlotBloc(), //context.read<UserSlotRepository>()
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.background,
           title: Text(
             "Create Pickup Slot",
