@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_colors.dart';
+import '../../pickupSlot/presentation/slot_config.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/home_bottom_tabs.dart';
 import 'widgets/order_tab.dart';
-import 'widgets/revenue_tab.dart';
+import 'package:think_and_wash_admin/features/revenue/presentation/screens/revenue_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -36,11 +37,9 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: const HomeAppBar(),
       body: TabBarView(
         controller: _tabController,
-        children: const [OrderTab(), RevenueTab()],
+        children: const [OrderTab(), RevenueScreen(), VendorSlotConfigScreen()],
       ),
-      bottomNavigationBar: HomeBottomTabs(
-        tabController: _tabController,
-      ),
+      bottomNavigationBar: HomeBottomTabs(tabController: _tabController),
     );
   }
 }

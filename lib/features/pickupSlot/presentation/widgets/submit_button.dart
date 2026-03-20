@@ -16,25 +16,36 @@ class AppSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 10,
-              spreadRadius: -2,
-              color: AppColors.boxShadowPink,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width * 0.7,
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.seedColor),
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(25),
+            gradient: LinearGradient(
+              colors: [AppColors.background, AppColors.boxShadowblue],
+              begin: Alignment.bottomRight,
+              end: Alignment.topRight,
             ),
-          ],
-        ),
-        child: TextButton(
-          onPressed: isLoading ? null : onPressed,
-          child:
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : Text(text, style: Theme.of(context).textTheme.bodyMedium),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 10,
+                spreadRadius: -2,
+                color: AppColors.boxShadowPink,
+                offset: Offset(1, 3),
+              ),
+            ],
+          ),
+          child: TextButton(
+            onPressed: isLoading ? null : onPressed,
+            child:
+                isLoading
+                    ? const CircularProgressIndicator()
+                    : Text(text, style: Theme.of(context).textTheme.bodyMedium),
+          ),
         ),
       ),
     );
